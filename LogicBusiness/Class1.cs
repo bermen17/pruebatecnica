@@ -7,5 +7,6 @@ namespace LogicBusiness
 {
     public class Class1
     {
+
     }
 }
