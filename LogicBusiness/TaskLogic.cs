@@ -11,9 +11,9 @@ namespace LogicBusiness
     {
         TaskAccess oTaskAccess = new TaskAccess();
 
-        public  int insertTask(String pName, DateTime pStartDate, DateTime pDueDate,  DateTime pCompletionDate, string pTaskComments)
+        public  int insertTask(String pName, DateTime pStartDate, DateTime pDueDate, string pTaskComments)
         {
-            return oTaskAccess.insertTask( pName,  pStartDate,  pDueDate,   pCompletionDate,  pTaskComments);
+            return oTaskAccess.insertTask( pName,  pStartDate,  pDueDate,  pTaskComments);
         }
 
         public  int updateTask(int pTaskId,String pName, DateTime pStartDate, DateTime pDueDate, DateTime pCompletionDate, string pTaskComments)

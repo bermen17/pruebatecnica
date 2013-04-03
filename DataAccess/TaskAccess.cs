@@ -25,11 +25,11 @@ namespace DataAccess
 
                     conn.ConnectionString = connString;
 
-                    using (SqlCommand  command = new SqlCommand())
+                    using (SqlCommand command = new SqlCommand())
                     {
                         command.Connection = conn;
 
-                        command.CommandType  = CommandType.StoredProcedure;
+                        command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = pProcedureName;
 
                         foreach (var item in pLParameters)
@@ -37,7 +37,7 @@ namespace DataAccess
                             command.Parameters.Add(item);
                         }
 
-                        conn .Open();
+                        conn.Open();
 
                         result = command.ExecuteNonQuery();
                     }
@@ -52,37 +52,30 @@ namespace DataAccess
             return result;
         }
 
-        public int insertTask(String pName, DateTime pStartDate, DateTime pDueDate,  DateTime pCompletionDate, string pTaskComments)
+        public int insertTask(String pName, DateTime pStartDate, DateTime pDueDate, string pTaskComments)
         {
-            List<SqlParameter > lParameters = new List<SqlParameter >();
+            List<SqlParameter> lParameters = new List<SqlParameter>();
 
-            SqlParameter paramName = new SqlParameter ();
+            SqlParameter paramName = new SqlParameter();
             paramName.ParameterName = "pTASKNAME";
             paramName.Value = pName;
 
             lParameters.Add(paramName);
 
-            SqlParameter  paramStartDate = new SqlParameter();
-            paramStartDate.Value = pStartDate ;
+            SqlParameter paramStartDate = new SqlParameter();
+            paramStartDate.Value = pStartDate;
             paramStartDate.ParameterName = "pSTARTDATE";
 
             lParameters.Add(paramStartDate);
 
             SqlParameter paramDueDate = new SqlParameter();
-            paramDueDate.Value = pDueDate ;
+            paramDueDate.Value = pDueDate;
             paramDueDate.ParameterName = "pDUEDATE";
 
             lParameters.Add(paramDueDate);
 
-
-            SqlParameter paramCompletionDate = new SqlParameter();
-            paramCompletionDate.Value = pCompletionDate ;
-            paramCompletionDate.ParameterName = "pCOMPLETIONDATE";
-
-            lParameters.Add(paramCompletionDate);
-
             SqlParameter paramTaskComments = new SqlParameter();
-            paramTaskComments.Value = pTaskComments ;
+            paramTaskComments.Value = pTaskComments;
             paramTaskComments.ParameterName = "pCOMMENTS";
 
             lParameters.Add(paramTaskComments);
@@ -92,6 +85,12 @@ namespace DataAccess
             paramTaskStatus.ParameterName = "pSTATUS";
 
             lParameters.Add(paramTaskStatus);
+
+            SqlParameter paramCompletionDate = new SqlParameter();
+            paramCompletionDate.Value = "";
+            paramCompletionDate.ParameterName = "@pCOMPLETIONDATE";
+
+            lParameters.Add(paramCompletionDate);
 
             return executeNonQuery("insertTasks", lParameters);
         }
@@ -103,7 +102,7 @@ namespace DataAccess
 
             SqlParameter paramTaskId = new SqlParameter();
             paramTaskId.ParameterName = "pTASKID";
-            paramTaskId.Value = pTaskId ;
+            paramTaskId.Value = pTaskId;
 
             lParameters.Add(paramTaskId);
 
@@ -149,15 +148,15 @@ namespace DataAccess
 
         public List<Task> consultDueTasks(DateTime pDueDate)
         {
-            List<Task > lTasks = new List<Task >();
+            List<Task> lTasks = new List<Task>();
 
             try
             {
-                using (SqlConnection  conn = new SqlConnection ())
+                using (SqlConnection conn = new SqlConnection())
                 {
-                    conn.ConnectionString = connString ;
+                    conn.ConnectionString = connString;
 
-                    using (SqlCommand  command = new SqlCommand ())
+                    using (SqlCommand command = new SqlCommand())
                     {
                         command.Connection = conn;
                         command.CommandType = CommandType.StoredProcedure;
@@ -170,17 +169,17 @@ namespace DataAccess
                         command.Parameters.Add(paramDueDate);
 
                         conn.Open();
-                        using (SqlDataReader  dr = command.ExecuteReader())
+                        using (SqlDataReader dr = command.ExecuteReader())
                         {
                             while (dr.Read())
                             {
                                 Task newTask = new Task();
                                 newTask.TaskId = (int)dr[0];
-                                newTask.TaskName  = (string )dr[1];
-                                newTask.StartDate  = (DateTime )dr[2];
-                                newTask.TaskComments  = (string )dr[3];
+                                newTask.TaskName = (string)dr[1];
+                                newTask.StartDate = (DateTime)dr[2];
+                                newTask.TaskComments = (string)dr[3];
 
-                                lTasks.Add(newTask );
+                                lTasks.Add(newTask);
                             }
                         }
                     }
@@ -223,11 +222,10 @@ namespace DataAccess
                             while (dr.Read())
                             {
                                 Task newTask = new Task();
-                                newTask.TaskName  = (string )dr[0];
-                                newTask.StartDate  = (DateTime )dr[1];
-                                newTask.TaskComments  = (string )dr[2];
-                                newTask.CompletionDate = (DateTime )dr[3];
-                                newTask.DueDate = (DateTime )dr[3];
+                                newTask.TaskName = (string)dr[0];
+                                newTask.StartDate = (DateTime)dr[1];
+                                newTask.TaskComments = (string)dr[2];
+                                newTask.DueDate = (DateTime)dr[4];
 
                                 lTasks.Add(newTask);
                             }
